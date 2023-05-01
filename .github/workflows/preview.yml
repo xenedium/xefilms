@@ -10,7 +10,6 @@ jobs:
     name: Send to VPS
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.HOST }}
