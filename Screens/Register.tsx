@@ -1,18 +1,19 @@
-import { YStack, Form, Button, Spinner, Input, Theme, H3, H6, Text, Spacer } from "tamagui";
+import { YStack, Form, Button, Spinner, Input, Theme, H3, Text, Spacer, Dialog } from "tamagui";
 import { useEffect, useState } from "react";
 import { useUserTheme } from "../Hooks/useUserTheme";
 import { Keyboard } from "react-native";
-import { supabase } from "../Config/SupabaseClient";
+import { supabase } from "../lib/SupabaseClient";
 import { NavigationProps } from "../types";
 
 
 type Props = NavigationProps<"Register">;
 
-export function Register ({ navigation }: Props) {
+export function Register({ navigation }: Props) {
 
     const [status, setStatus] = useState<'off' | 'submitting' | string>('off');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [open, setOpen] = useState<boolean>(false);
 
     useEffect(() => {
         if (status === 'submitting') {
@@ -21,14 +22,13 @@ export function Register ({ navigation }: Props) {
                 email: email,
                 password: password
             })
-            .then((res) => {
-                console.log(res);
-                if (res.error) {
-                    return setStatus(res.error.message);
-                }
-                setStatus('off');
-                // TODO: Navigate to home screen
-            })
+                .then((res) => {
+                    if (res.error) {
+                        return setStatus(res.error.message);
+                    }
+                    // setStatus('off');
+                    setOpen(true);
+                })
         }
     }, [status])
 
@@ -47,6 +47,47 @@ export function Register ({ navigation }: Props) {
                     onSubmit={() => setStatus('submitting')}
                     bg="$backgroundStrong"
                 >
+                    <Dialog open={open}>
+                        <Dialog.Portal>
+                            <Dialog.Overlay
+                                key="overlay"
+                                animation="bouncy"
+                                opacity={0.4}
+                                enterStyle={{ opacity: 0 }}
+                                exitStyle={{ opacity: 0 }}
+                            />
+                            <Dialog.Content
+                                bordered
+                                elevate
+                                key="content"
+                                animation={[
+                                    'bouncy',
+                                    {
+                                        opacity: {
+                                            overshootClamping: true,
+                                        }
+                                    }
+                                ]}
+                                enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
+                                exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+                                x={0}
+                                scale={1}
+                                opacity={1}
+                                y={0}
+                            >
+                                <Dialog.Title>Complete registration !</Dialog.Title>
+                                <Spacer />
+                                <Dialog.Description>
+                                    An email has been sent to your email address. Please click on the link in the email to complete your registration.
+                                </Dialog.Description>
+                                <Spacer />
+                                <Dialog.Close asChild>
+                                    <Button onPress={() => navigation.navigate('Login')}>Go to Login</Button>
+                                </Dialog.Close>
+                            </Dialog.Content>
+                        </Dialog.Portal>
+                    </Dialog>
+
                     <H3>Welcome to XeFilms 🎬 !</H3>
                     <Spacer />
                     <Input
@@ -65,13 +106,13 @@ export function Register ({ navigation }: Props) {
                         secureTextEntry
                         onChangeText={setPassword}
                     />
-                    
+
                     <Form.Trigger asChild disabled={status === 'submitting'}>
                         <Button icon={status === 'submitting' ? () => <Spinner /> : undefined}>
                             Register
                         </Button>
                     </Form.Trigger>
-                    <Text color="$color">Already have an account?
+                    <Text color="$color">Already have an account?{' '}
                         <Text
                             color="$color"
                             textDecorationLine="underline"
@@ -80,7 +121,7 @@ export function Register ({ navigation }: Props) {
                             Sign In
                         </Text>
                     </Text>
-                    <Text color="$color">{status !== 'off' && status !== 'submitting' && status}</Text>
+                    <Text color="red">{status !== 'off' && status !== 'submitting' && status}</Text>
                 </Form>
             </YStack>
         </Theme>
