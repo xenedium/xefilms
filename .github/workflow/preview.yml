@@ -1,0 +1,25 @@
+name: Send To Preview VPS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  send-to-vps:
+    name: Send to VPS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            pm2 delete xefilms
+            rm -rf xefilms
+            git clone https://github.com/xenedium/xefilms.git
+            cd xefilms
+            yarn --frozen-lockfile
+            pm2 start "yarn start" --name xefilms
