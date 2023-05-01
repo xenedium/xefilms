@@ -2,7 +2,7 @@ import { YStack, Form, Button, Spinner, Input, Theme, H3, H6, Text } from "tamag
 import { useEffect, useState } from "react";
 import { useUserTheme } from "../Hooks/useUserTheme";
 import { Keyboard } from "react-native";
-import { supabase } from "../Config/SupabaseClient";
+import { supabase } from "../lib/SupabaseClient";
 import { NavigationProps } from "../types";
 
 type Props = NavigationProps<"Login">;
@@ -25,7 +25,10 @@ export const Login = ({ navigation }: Props) =>  {
                     return setStatus(error.message);
                 }
                 setStatus('off');
-                navigation.navigate('Home');
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Home' }],
+                });
             })
         }
     }, [status])
@@ -63,12 +66,12 @@ export const Login = ({ navigation }: Props) =>  {
                         secureTextEntry
                         onChangeText={setPassword}
                     />
-                    <Form.Trigger asChild disabled={status !== 'off'}>
+                    <Form.Trigger asChild disabled={status === 'submitting'}>
                         <Button icon={status === 'submitting' ? () => <Spinner /> : undefined}>
                             Login
                         </Button>
                     </Form.Trigger>
-                    <Text color="$color">Don't have an account?
+                    <Text color="$color">Don't have an account?{' '}
                         <Text
                             color="$color"
                             textDecorationLine="underline"
@@ -77,7 +80,7 @@ export const Login = ({ navigation }: Props) =>  {
                             Sign up
                         </Text>
                     </Text>
-                    <Text color="$color">{status !== 'error' && status !== 'off' && status}</Text>
+                    <Text color="red">{status !== 'off' && status !== 'submitting' && status}</Text>
                 </Form>
             </YStack>
         </Theme>
