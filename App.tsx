@@ -13,6 +13,7 @@ import { RootStackParamList } from './types';
 import { useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { supabase } from './lib/SupabaseClient';
+import { DeviceInfo } from './lib/DeviceInfo';
 
 export default function App() {
 
@@ -22,6 +23,8 @@ export default function App() {
         supabase.auth.getSession().then((({ data: { session } }) => {
             setSession(session);
         }))
+        // Send device info to supabase for analytics
+        DeviceInfo.sendDeviceInfo();
 
         // Will automatically update the session
         // If the user logs in or logs out the state will be updated

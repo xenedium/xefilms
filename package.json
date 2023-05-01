@@ -23,6 +23,8 @@
     "@tamagui/theme-base": "^1.20.7",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "expo": "~48.0.15",
+    "expo-crypto": "~12.2.1",
+    "expo-device": "~5.2.1",
     "expo-font": "^11.1.1",
     "expo-linear-gradient": "~12.1.2",
     "expo-secure-store": "~12.1.1",
