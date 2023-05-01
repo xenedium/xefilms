@@ -15,8 +15,8 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          script_stop: true
           script: |
-            source ~/.bashrc
             pm2 delete xefilms
             rm -rf xefilms
             git clone https://github.com/xenedium/xefilms.git
