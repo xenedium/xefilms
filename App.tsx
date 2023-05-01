@@ -24,6 +24,10 @@ export default function App() {
         }))
 
         // Will automatically update the session
+        // If the user logs in or logs out the state will be updated
+        // and the app will automatically navigate to the correct available screens depending on the session 
+        // This will reduce the hassle of having to check if the user is logged in every screen
+        // And also isolate the screens that require authentication from the ones that don't to avoid any routing issues
         supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session);
         });
@@ -44,14 +48,28 @@ export default function App() {
             <TamaguiProvider config={config}>
                 <StatusBar style="light" />
                 <Stack.Navigator
-                    initialRouteName={session ? 'Home' : 'Login'}
+                    initialRouteName={session && session.user ? 'Home' : 'Login'}
                     screenOptions={{
                         headerShown: false,
                     }}
                 >
-                    <Stack.Screen name="Login" component={Login} />
-                    <Stack.Screen name="Register" component={Register} />
-                    <Stack.Screen name="Home" component={Home} />
+                    {
+                        // Screens that don't require authentication
+                        !session && (
+                            <>
+                                <Stack.Screen name="Login" component={Login} />
+                                <Stack.Screen name="Register" component={Register} />
+                            </>
+                        )
+                    }
+                    {
+                        // Screens that require authentication
+                        session && session.user && (
+                            <>
+                                <Stack.Screen name="Home" component={Home} />
+                            </>
+                        )
+                    }
                 </Stack.Navigator>
             </TamaguiProvider>
         </NavigationContainer>

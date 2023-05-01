@@ -25,10 +25,6 @@ export const Login = ({ navigation }: Props) =>  {
                     return setStatus(error.message);
                 }
                 setStatus('off');
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'Home' }],
-                });
             })
         }
     }, [status])
