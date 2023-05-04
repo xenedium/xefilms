@@ -1,4 +1,4 @@
-import { YStack, Form, Button, Spinner, Input, Theme, H3, Text, Spacer, Dialog } from "tamagui";
+import { YStack, Form, Button, Spinner, Input, Theme, H3, Text, Spacer, Dialog, Adapt, Sheet } from "tamagui";
 import { useEffect, useState } from "react";
 import { useUserTheme } from "../Hooks/useUserTheme";
 import { Keyboard } from "react-native";
@@ -33,7 +33,6 @@ export function Register({ navigation }: Props) {
     }, [status])
 
     const theme = useUserTheme();
-
     return (
         <Theme name={theme}>
             <YStack f={1} jc="center" ai="center" bg="$background">
@@ -48,6 +47,14 @@ export function Register({ navigation }: Props) {
                     bg="$backgroundStrong"
                 >
                     <Dialog open={open}>
+                        <Adapt when="sm" platform="touch">
+                            <Sheet zIndex={200000} modal dismissOnSnapToBottom>
+                                <Sheet.Frame padding="$4" space>
+                                    <Adapt.Contents />
+                                </Sheet.Frame>
+                                <Sheet.Overlay />
+                            </Sheet>
+                        </Adapt>
                         <Dialog.Portal>
                             <Dialog.Overlay
                                 key="overlay"
@@ -81,9 +88,10 @@ export function Register({ navigation }: Props) {
                                     An email has been sent to your email address. Please click on the link in the email to complete your registration.
                                 </Dialog.Description>
                                 <Spacer />
-                                <Dialog.Close asChild>
-                                    <Button onPress={() => navigation.navigate('Login')}>Go to Login</Button>
-                                </Dialog.Close>
+                                <Button onPress={() => {
+                                    setOpen(false);
+                                    navigation.navigate('Login')
+                                }}>Go to Login</Button>
                             </Dialog.Content>
                         </Dialog.Portal>
                     </Dialog>
