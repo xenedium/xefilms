@@ -1,6 +1,6 @@
 import { YStack, Form, Button, Spinner, Input, Theme, H3, Text, Spacer, Dialog, Adapt, Sheet } from "tamagui";
 import { useEffect, useState } from "react";
-import { useUserTheme } from "../Hooks/useUserTheme";
+import { useUserTheme } from "../Hooks";
 import { Keyboard } from "react-native";
 import { supabase } from "../lib/SupabaseClient";
 import { NavigationProps } from "../types";

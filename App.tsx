@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { supabase } from './lib/SupabaseClient';
 import { DeviceInfo } from './lib/DeviceInfo';
+import { MovieDetails } from './Screens/MovieDetails';
 
 export default function App() {
 
@@ -47,8 +48,8 @@ export default function App() {
     const Stack = createStackNavigator<RootStackParamList>();
 
     return (
-        <NavigationContainer>
-            <TamaguiProvider config={config}>
+        <TamaguiProvider config={config}>
+            <NavigationContainer>
                 <StatusBar style="light" />
                 <Stack.Navigator
                     initialRouteName={session && session.user ? 'Home' : 'Login'}
@@ -70,11 +71,12 @@ export default function App() {
                         session && session.user && (
                             <>
                                 <Stack.Screen name="Home" component={Home} />
+                                <Stack.Screen name="MovieDetails" component={MovieDetails} />
                             </>
                         )
                     }
                 </Stack.Navigator>
-            </TamaguiProvider>
-        </NavigationContainer>
+            </NavigationContainer>
+        </TamaguiProvider>
     )
 }
