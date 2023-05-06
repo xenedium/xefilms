@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { MovieDetails } from "../types"
 
 export const useAsyncStorage = () => {
     const get = async (key: string) => {
@@ -21,33 +22,39 @@ export const useAsyncStorage = () => {
         }
     }
 
-    const addToFavorites = async (movieId: number) => {
+    const addToFavorites = async (partialMovie: Pick<MovieDetails, "id" | "title" | "backdrop_path">) => {
         const favorites = await get("favorites")
         if (favorites) {
-            if (favorites.includes(movieId)) return
-            const newFavorites = [...favorites, movieId]
+            if (favorites.includes(partialMovie)) return;
+            const newFavorites = [...favorites, partialMovie]
             await set("favorites", newFavorites)
         }
         else {
-            await set("favorites", [movieId])
+            await set("favorites", [partialMovie])
         }
     };
 
-    const removeFromFavorites = async (movieId: number) => {
+    const removeFromFavorites = async (partialMovie: Pick<MovieDetails, "id" | "title" | "backdrop_path">) => {
         const favorites = await get("favorites")
         if (favorites) {
-            const newFavorites = favorites.filter((id: number) => id !== movieId)
+            const newFavorites = favorites.filter((movie: Pick<MovieDetails, "id" | "title" | "backdrop_path">) => movie.id !== partialMovie.id)
             await set("favorites", newFavorites)
         }
     }
 
-    const isFavorite = async (movieId: number) => {
+    const isFavorite = async (partialMovie: Pick<MovieDetails, "id" | "title" | "backdrop_path"> | number) => {
         const favorites = await get("favorites")
         if (favorites) {
-            return favorites.includes(movieId)
+            if (typeof partialMovie === "number") return favorites.some((movie: Pick<MovieDetails, "id" | "title" | "backdrop_path">) => movie.id === partialMovie)
+            return favorites.includes(partialMovie)
         }
         return false
     }
 
-    return { addToFavorites, removeFromFavorites, isFavorite }
+    const getAllFavorites = async () => {
+        const favorites = await get("favorites")
+        return favorites
+    };
+
+    return { addToFavorites, removeFromFavorites, isFavorite, getAllFavorites }
 }

@@ -14,21 +14,31 @@ export function MovieDetails({ navigation, route }: Props) {
     const theme = useUserTheme();
     const [sheetOpen, setSheetOpen] = useState(false);
     const [isFav, setIsFav] = useState(false);
-    const { addToFavorites, isFavorite, removeFromFavorites } = useAsyncStorage();
+    const { addToFavorites, isFavorite, removeFromFavorites, getAllFavorites } = useAsyncStorage();
 
     useEffect(() => {
         isFavorite(route.params.id).then((res) => {
             setIsFav(res);
         })
+        getAllFavorites().then((res) => console.log(res))
     }, [])
 
     const toggleFavorite = () => {
+        if (movie === null) return;
         if (isFav) {
-            removeFromFavorites(route.params.id).then(() => {
+            removeFromFavorites({
+                id: movie.id,
+                title: movie.title,
+                backdrop_path: movie.backdrop_path,
+            }).then(() => {
                 setIsFav(false);
             })
         } else {
-            addToFavorites(route.params.id).then(() => {
+            addToFavorites({
+                id: movie.id,
+                title: movie.title,
+                backdrop_path: movie.backdrop_path,
+            }).then(() => {
                 setIsFav(true);
             })
         }
