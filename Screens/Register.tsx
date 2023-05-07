@@ -32,7 +32,7 @@ export function Register({ navigation }: Props) {
         }
     }, [status])
 
-    const theme = useUserTheme();
+    const { theme } = useUserTheme();
     return (
         <Theme name={theme}>
             <YStack f={1} jc="center" ai="center" bg="$background">

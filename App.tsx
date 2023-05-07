@@ -7,14 +7,13 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { TamaguiProvider } from 'tamagui'
 import config from './tamagui.config'
 
-import { Login, Register, Home } from './Screens'
+import { Login, Register, Home, MovieDetails, Loading, Favorites } from './Screens'
 import { RootStackParamList } from './types';
 
 import { useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { supabase } from './lib/SupabaseClient';
 import { DeviceInfo } from './lib/DeviceInfo';
-import { MovieDetails } from './Screens/MovieDetails';
 
 export default function App() {
 
@@ -72,6 +71,7 @@ export default function App() {
                             <>
                                 <Stack.Screen name="Home" component={Home} />
                                 <Stack.Screen name="MovieDetails" component={MovieDetails} />
+                                <Stack.Screen name="Favorites" component={Favorites} />
                             </>
                         )
                     }

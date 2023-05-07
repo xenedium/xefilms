@@ -29,7 +29,7 @@ export const Login = ({ navigation }: Props) =>  {
         }
     }, [status])
 
-    const theme = useUserTheme();
+    const { theme } = useUserTheme();
 
     return (
         <Theme name={theme}>

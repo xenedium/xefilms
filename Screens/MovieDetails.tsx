@@ -11,13 +11,13 @@ type Props = NavigationProps<'MovieDetails'>;
 export function MovieDetails({ navigation, route }: Props) {
 
     const { movie, loading, error } = useMovie(route.params.id);
-    const theme = useUserTheme();
+    const { theme } = useUserTheme();
     const [sheetOpen, setSheetOpen] = useState(false);
     const [isFav, setIsFav] = useState(false);
     const { addToFavorites, isFavorite, removeFromFavorites, getAllFavorites } = useAsyncStorage();
 
     useEffect(() => {
-        isFavorite(route.params.id).then((res) => {
+        isFavorite(route.params.id).then((res: boolean | ((prevState: boolean) => boolean)) => {
             setIsFav(res);
         })
         getAllFavorites().then((res) => console.log(res))
@@ -140,7 +140,7 @@ export function MovieDetails({ navigation, route }: Props) {
                                                     style={{ width: '100%', height: 300 }}
                                                 />
                                             </Sheet.Frame>
-                                            <Sheet.Overlay />
+                                            <Sheet.Overlay backgroundColor={"white"} />
                                             <Sheet.Handle />
                                         </Sheet>
                                     </Adapt>

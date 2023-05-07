@@ -5,6 +5,8 @@ export type RootStackParamList = {
     Login: undefined;
     Register: undefined;
     MovieDetails: { id: number };
+    Loading: undefined;
+    Favorites: undefined;
 };
 
 
