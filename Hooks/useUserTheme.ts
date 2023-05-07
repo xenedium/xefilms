@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import type { ThemeName } from "tamagui";
 
-export const useUserTheme = (): { theme: ThemeName, setThemeAndStore: (theme: ThemeName) => boolean, getThemeAsync: () => Promise<ThemeName> } => {
+export const useUserTheme = (): { theme: ThemeName, setThemeAndStore: (theme: ThemeName) => boolean, getThemeAsync: () => Promise<ThemeName | null> } => {
     const [theme, setTheme] = useState<ThemeName>("dark_blue");
     useEffect(() => {
         AsyncStorage.getItem("theme").then((theme) => {

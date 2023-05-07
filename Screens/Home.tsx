@@ -17,7 +17,9 @@ export function Home({ navigation }: Props) {
     const { movies, page, loading, error, setPage } = useMovies();
     const [sheetOpen, setSheetOpen] = useState(false);
     const [selectedTheme, setSelectedTheme] = useState(theme);
-    getThemeAsync().then((theme) => setSelectedTheme(theme));
+    getThemeAsync().then((theme) => {
+        if (theme) setSelectedTheme(theme);
+    });
     return (
         <Theme name={selectedTheme}>
             <Adapt when="sm" platform="touch">
