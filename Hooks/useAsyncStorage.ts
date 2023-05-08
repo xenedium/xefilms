@@ -53,7 +53,8 @@ export const useAsyncStorage = () => {
 
     const getAllFavorites = async () => {
         const favorites = await get("favorites")
-        return favorites
+        if (!favorites) return [] as Pick<MovieDetails, "id" | "title" | "backdrop_path">[]
+        return favorites as Pick<MovieDetails, "id" | "title" | "backdrop_path">[]
     };
 
     return { addToFavorites, removeFromFavorites, isFavorite, getAllFavorites }

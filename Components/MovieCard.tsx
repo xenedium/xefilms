@@ -1,24 +1,14 @@
-import { Card, CardProps, H4, Text, Image, Paragraph, Unspaced, YStack, Stack } from "tamagui";
+import { Card, CardProps, H4, Text, Image, Paragraph, YStack, Stack } from "tamagui";
 import { Movie } from "../types";
 import { ArrowUp } from "@tamagui/lucide-icons";
 
 export const MovieCard = (props: CardProps & { movie: Movie } & { onPress: any }) => {
     return (
-        <Card
-            elevate
-            size="$4"
-            bordered
-            {...props}
-            onPress={props.onPress}
-            style={{
-
-            }}
-        >
+        <Card elevate size="$4" bordered {...props} onPress={props.onPress}>
             <Card.Header padded>
                 <H4>{props.movie.title}</H4>
                 <Paragraph theme="alt2">Popularity: {Math.ceil(props.movie.popularity)} <ArrowUp /></Paragraph>
             </Card.Header>
-
 
             <Stack f={1} ai="center" jc="center">
                 <Paragraph theme="alt1" marginHorizontal={15}>{props.movie.overview.substring(0, 140)}...{' '}

@@ -4,7 +4,7 @@ import { supabase } from "../lib/SupabaseClient";
 
 export const useMovie = (id: number) => {
     const [movie, setMovie] = useState<MovieDetails | null>(null)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
 
     const getMovie = async (id: number) => {

@@ -5,6 +5,7 @@ on:
       - master
 jobs:
   build:
+    if: false # Remove this line to enable the workflow
     name: Install and build
     runs-on: ubuntu-latest
     steps:

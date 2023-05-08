@@ -20,7 +20,6 @@ export function MovieDetails({ navigation, route }: Props) {
         isFavorite(route.params.id).then((res: boolean | ((prevState: boolean) => boolean)) => {
             setIsFav(res);
         })
-        getAllFavorites().then((res) => console.log(res))
     }, [])
 
     const toggleFavorite = () => {
@@ -52,9 +51,13 @@ export function MovieDetails({ navigation, route }: Props) {
         <Theme name={theme}>
             <YStack f={1} bg="$background">
                 {
-                    loading ? <Spinner size="large" /> :
-                        error || movie === null ? <Button onPress={() => { }}>Error</Button> :
-                            <>
+                    loading ?
+                        <YStack f={1} ai="center" jc="center">
+                            <Spinner size="large" />
+                        </YStack>
+                        : error || movie === null ?
+                            <Button onPress={() => { }}>Error</Button>
+                            : <>
                                 <Image
                                     source={{ uri: `https://image.tmdb.org/t/p/original${movie?.backdrop_path}` }}
                                     style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
